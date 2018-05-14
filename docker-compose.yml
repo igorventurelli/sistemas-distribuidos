@@ -1,0 +1,41 @@
+version : '2'
+
+services:
+  api:
+    build:
+      dockerfile: ./api/api.dockerfile
+      context: .
+    image: sis-dist/api
+    container_name: api
+    networks:
+      - sis-dist-network
+    ports:
+      - "7000:7000"
+
+  client-1:
+    build:
+      dockerfile: ./client-1/client1.dockerfile
+      context: .
+    image: sis-dist/client-1
+    container_name: client-1
+    networks:
+      - sis-dist-network
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "api"
+  
+  client-2:
+    build:
+      dockerfile: ./client-2/client2.dockerfile
+      context: .
+    image: sis-dist/client-2
+    container_name: client-2
+    networks:
+      - sis-dist-network
+    depends_on:
+      - "api"
+
+networks:
+  sis-dist-network:
+    driver: bridge

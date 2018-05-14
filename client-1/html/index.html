@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<head>
+	<title>Searching for Magic Cards</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<style>
+	body{
+		background-image: url("./img/yugioh.jpg");
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-color:#0a0a05;
+		height:600px;
+	}
+	.box{
+		border-radius:20px;
+		width:400px;
+		height:450px;
+		margin-left:auto;
+		margin-right:auto;
+		margin-top:10%;
+		background-color:#8c8c8c;
+		opacity:0.98;
+		text-align:center;
+	}
+	.char{
+		height:150px;
+		margin-left:10px;
+	}
+	.dragon{
+		width:250px;
+		margin-top:8%;
+	}
+</style>
+</head>
+<body>
+	<div class="box">
+		<div class="row">
+			<img class="char" src="./img/yugioh_char.png">
+			<img class="dragon" src="./img/yugioh_dragon.png">
+		</div>
+		<br>
+		<div class="row" style="margin-left:auto; margin-right:auto;">
+			<div class="col-sm-12">
+				<br>
+				<form id="procurar_card" name="procurar_card" action="#">
+					<label for="card">Digite o código da carta:</label>
+					<input style="text-align:center;" type="text" class="form-control" id="card">
+					<br>
+					<input type="button" onclick="getCard()" class="btn btn-success" id="botao" value="Obter Dados" />
+				</form>
+				
+				<br>
+				
+				<div class="row">
+					<label>Nome</label>
+					<br>
+					<label id="nome"></label>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-sm-4">
+						<label>Maior preço</label>
+						<br>
+						<label id="maior_preco"></label>
+					</div>
+					<div class="col-sm-4">
+						<label>Menor preço</label>
+						<br>
+						<label id="menor_preco"></label>
+					</div>
+					<div class="col-sm-4">
+						<label>Média</label>
+						<br>
+						<label id="media"></label>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	
+	<script>
+	function getCard(){
+
+		card = $("#card").val();
+
+		$.getJSON('http://0.0.0.0:7000/rest/cards/' + card, function(data) {
+			name = data.name;
+			lowerValue = data.lowerValue;
+			higherValue = data.higherValue;
+			avgValue = data.avgValue;
+			
+			$("#nome").text(name);
+			$("#nome").css("color", "#990000");
+			
+			$("#maior_preco").text(higherValue);
+			$("#maior_preco").css("color", "#990000");
+			
+			$("#menor_preco").text(lowerValue);
+			$("#menor_preco").css("color", "#990000");
+			
+			$("#media").text(avgValue);
+			$("#media").css("color", "#990000");
+		
+		});
+	}
+	</script>
+</body>
+</html>
